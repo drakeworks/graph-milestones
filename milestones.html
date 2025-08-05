@@ -52,7 +52,7 @@
         
         .timeline-grid {
             position: relative;
-            height: 300px;
+            height: 350px;
             border-bottom: 2px solid #ddd;
         }
         
@@ -176,6 +176,7 @@
         
         <div class="timeline-wrapper">
             <div class="category-labels">
+                <div class="category-label">Category 7</div>
                 <div class="category-label">Category 6</div>
                 <div class="category-label">Category 5</div>
                 <div class="category-label">Category 4</div>
@@ -192,19 +193,21 @@
                     <div class="grid-line" style="top: 150px;"></div>
                     <div class="grid-line" style="top: 200px;"></div>
                     <div class="grid-line" style="top: 250px;"></div>
+                    <div class="grid-line" style="top: 300px;"></div>
                 </div>
                 <div class="vertical-lines">
-                    <!-- Vertical grid lines for months -->
+                    <!-- Vertical grid lines for time periods -->
                     <div class="vertical-grid-line" style="left: 0%;"></div>
-                    <div class="vertical-grid-line" style="left: 10%;"></div>
-                    <div class="vertical-grid-line" style="left: 20%;"></div>
-                    <div class="vertical-grid-line" style="left: 30%;"></div>
-                    <div class="vertical-grid-line" style="left: 40%;"></div>
-                    <div class="vertical-grid-line" style="left: 50%;"></div>
-                    <div class="vertical-grid-line" style="left: 60%;"></div>
-                    <div class="vertical-grid-line" style="left: 70%;"></div>
-                    <div class="vertical-grid-line" style="left: 80%;"></div>
-                    <div class="vertical-grid-line" style="left: 90%;"></div>
+                    <div class="vertical-grid-line" style="left: 9.09%;"></div>
+                    <div class="vertical-grid-line" style="left: 18.18%;"></div>
+                    <div class="vertical-grid-line" style="left: 27.27%;"></div>
+                    <div class="vertical-grid-line" style="left: 36.36%;"></div>
+                    <div class="vertical-grid-line" style="left: 45.45%;"></div>
+                    <div class="vertical-grid-line" style="left: 54.55%;"></div>
+                    <div class="vertical-grid-line" style="left: 63.64%;"></div>
+                    <div class="vertical-grid-line" style="left: 72.73%;"></div>
+                    <div class="vertical-grid-line" style="left: 81.82%;"></div>
+                    <div class="vertical-grid-line" style="left: 90.91%;"></div>
                     <div class="vertical-grid-line" style="left: 100%;"></div>
                 </div>
                 
@@ -224,6 +227,7 @@
                     <div class="time-marker">Period 9</div>
                     <div class="time-marker">Period 10</div>
                     <div class="time-marker">Period 11</div>
+                    <div class="time-marker">Period 12</div>
                 </div>
             </div>
         </div>
@@ -239,19 +243,19 @@
             
             // Time periods (X-axis)
             timeUnits: ['Period 1', 'Period 2', 'Period 3', 'Period 4', 'Period 5', 
-                       'Period 6', 'Period 7', 'Period 8', 'Period 9', 'Period 10', 'Period 11'],
+                       'Period 6', 'Period 7', 'Period 8', 'Period 9', 'Period 10', 'Period 11', 'Period 12'],
             
             // Categories (Y-axis)
-            categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Category 6'],
+            categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Category 6', 'Category 7'],
             
             // Timeline items
             items: [
-                { name: "Item 1", start: 0, end: 1, category: 5 },
-                { name: "Item 2", start: 1, end: 2, category: 4 },
-                { name: "Item 3", start: 2, end: 3, category: 3 },
-                { name: "Item 4", start: 3, end: 4, category: 2 },
-                { name: "Item 5", start: 4, end: 5, category: 1 },
-                { name: "Item 6", start: 5, end: 6, category: 0 }
+                { name: "Item 1", start: 0, end: 1, category: 0 },  // Top row
+                { name: "Item 2", start: 1, end: 2, category: 1 },  // 2nd row
+                { name: "Item 3", start: 2, end: 3, category: 2 },  // 3rd row
+                { name: "Item 4", start: 3, end: 4, category: 3 },  // 4th row
+                { name: "Item 5", start: 4, end: 5, category: 4 },  // 5th row
+                { name: "Item 6", start: 5, end: 6, category: 5 }   // 6th row
             ],
             
             // Visual settings
@@ -271,15 +275,18 @@
             const timelineItem = document.createElement('div');
             timelineItem.className = `timeline-item item-${index + 1}`;
             
-            // Each time period represents 10% of the width
-            const leftPercent = item.start * 10;
-            const rightPercent = item.end * 10;
+            // Each time period is evenly distributed across the width
+            const leftPercent = (item.start / (config.timeUnits.length - 1)) * 100;
+            const rightPercent = (item.end / (config.timeUnits.length - 1)) * 100;
             const widthPercent = rightPercent - leftPercent;
             const topPosition = item.category * config.categoryHeight + (config.categoryHeight - config.itemHeight) / 2;
             
             timelineItem.style.width = widthPercent + '%';
             timelineItem.style.left = leftPercent + '%';
             timelineItem.style.top = topPosition + 'px';
+            
+            // Debug: log the positioning
+            console.log(`${item.name}: left=${leftPercent}%, width=${widthPercent}%, top=${topPosition}px`);
             
             // Add hover events
             timelineItem.addEventListener('mouseenter', (e) => {
@@ -309,8 +316,8 @@
             const bottomSpacing = 5; // Consistent spacing from bottom graph line
             
             timeMarkers.forEach((marker, index) => {
-                // Calculate the gridline position (each time period is 10% of the width)
-                const gridlinePercent = index * 10;
+                // Calculate the gridline position (each time period is evenly distributed)
+                const gridlinePercent = (index / (config.timeUnits.length - 1)) * 100;
                 const gridlinePosition = (gridlinePercent / 100) * gridRect.width;
                 
                 // With transform-origin: bottom right, the last character becomes the pivot point
@@ -336,6 +343,167 @@
         
         // Also call on window resize to maintain alignment
         window.addEventListener('resize', positionTimeMarkers);
+        
+        // Helper functions for dynamic chart management
+        function addTimePeriod(label) {
+            // Add to config
+            config.timeUnits.push(label);
+            
+            // Add HTML element
+            const timeMarkersContainer = document.querySelector('.time-markers');
+            const newMarker = document.createElement('div');
+            newMarker.className = 'time-marker';
+            newMarker.textContent = label;
+            timeMarkersContainer.appendChild(newMarker);
+            
+            // Add vertical grid line
+            const verticalLinesContainer = document.querySelector('.vertical-lines');
+            const newGridLine = document.createElement('div');
+            newGridLine.className = 'vertical-grid-line';
+            const position = ((config.timeUnits.length - 1) * 10) + '%';
+            newGridLine.style.left = position;
+            verticalLinesContainer.appendChild(newGridLine);
+            
+            // Reposition all markers
+            positionTimeMarkers();
+            
+            console.log(`Added time period: ${label}`);
+        }
+        
+        function removeTimePeriod(index) {
+            if (index < 0 || index >= config.timeUnits.length) {
+                console.error('Invalid time period index');
+                return;
+            }
+            
+            // Remove from config
+            config.timeUnits.splice(index, 1);
+            
+            // Remove HTML elements
+            const timeMarkers = document.querySelectorAll('.time-marker');
+            const verticalLines = document.querySelectorAll('.vertical-grid-line');
+            
+            if (timeMarkers[index]) timeMarkers[index].remove();
+            if (verticalLines[index]) verticalLines[index].remove();
+            
+            // Reposition all markers
+            positionTimeMarkers();
+            
+            console.log(`Removed time period at index: ${index}`);
+        }
+        
+        function addCategory(label) {
+            // Add to config
+            config.categories.push(label);
+            
+            // Add HTML element
+            const categoryLabelsContainer = document.querySelector('.category-labels');
+            const newLabel = document.createElement('div');
+            newLabel.className = 'category-label';
+            newLabel.textContent = label;
+            categoryLabelsContainer.appendChild(newLabel);
+            
+            // Update grid height
+            const newHeight = config.categories.length * config.categoryHeight;
+            document.querySelector('.timeline-grid').style.height = newHeight + 'px';
+            
+            // Add horizontal grid line
+            const gridLinesContainer = document.querySelector('.grid-lines');
+            const newGridLine = document.createElement('div');
+            newGridLine.className = 'grid-line';
+            const position = (config.categories.length - 1) * config.categoryHeight;
+            newGridLine.style.top = position + 'px';
+            gridLinesContainer.appendChild(newGridLine);
+            
+            console.log(`Added category: ${label}`);
+        }
+        
+        function removeCategory(index) {
+            if (index < 0 || index >= config.categories.length) {
+                console.error('Invalid category index');
+                return;
+            }
+            
+            // Remove from config
+            config.categories.splice(index, 1);
+            
+            // Remove HTML elements
+            const categoryLabels = document.querySelectorAll('.category-label');
+            const gridLines = document.querySelectorAll('.grid-line');
+            
+            if (categoryLabels[index]) categoryLabels[index].remove();
+            if (gridLines[index]) gridLines[index].remove();
+            
+            // Update grid height
+            const newHeight = config.categories.length * config.categoryHeight;
+            document.querySelector('.timeline-grid').style.height = newHeight + 'px';
+            
+            console.log(`Removed category at index: ${index}`);
+        }
+        
+        function addTimelineItem(name, start, end, category) {
+            // Add to config
+            config.items.push({ name, start, end, category });
+            
+            // Create and add HTML element
+            const timelineItem = document.createElement('div');
+            timelineItem.className = `timeline-item item-${config.items.length}`;
+            
+            // Calculate positioning
+            const leftPercent = start * 10;
+            const rightPercent = end * 10;
+            const widthPercent = rightPercent - leftPercent;
+            const topPosition = category * config.categoryHeight + (config.categoryHeight - config.itemHeight) / 2;
+            
+            timelineItem.style.width = widthPercent + '%';
+            timelineItem.style.left = leftPercent + '%';
+            timelineItem.style.top = topPosition + 'px';
+            
+            // Add hover events
+            timelineItem.addEventListener('mouseenter', (e) => {
+                const startPeriod = config.timeUnits[start];
+                const endPeriod = config.timeUnits[end];
+                tooltip.textContent = `${name}: ${startPeriod} - ${endPeriod}`;
+                tooltip.classList.add('show');
+            });
+            
+            timelineItem.addEventListener('mousemove', (e) => {
+                tooltip.style.left = e.pageX + 10 + 'px';
+                tooltip.style.top = e.pageY - 30 + 'px';
+            });
+            
+            timelineItem.addEventListener('mouseleave', () => {
+                tooltip.classList.remove('show');
+            });
+            
+            document.getElementById('timelineItems').appendChild(timelineItem);
+            
+            console.log(`Added timeline item: ${name}`);
+        }
+        
+        function removeTimelineItem(index) {
+            if (index < 0 || index >= config.items.length) {
+                console.error('Invalid item index');
+                return;
+            }
+            
+            // Remove from config
+            config.items.splice(index, 1);
+            
+            // Remove HTML element
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            if (timelineItems[index]) timelineItems[index].remove();
+            
+            console.log(`Removed timeline item at index: ${index}`);
+        }
+        
+        // Make functions globally available for testing
+        window.addTimePeriod = addTimePeriod;
+        window.removeTimePeriod = removeTimePeriod;
+        window.addCategory = addCategory;
+        window.removeCategory = removeCategory;
+        window.addTimelineItem = addTimelineItem;
+        window.removeTimelineItem = removeTimelineItem;
     </script>
 </body>
 </html>
