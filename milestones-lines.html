@@ -145,12 +145,7 @@
             opacity: 1;
         }
         
-        .item-1 { background-color: #FF6B6B; animation-delay: 0.1s; }
-        .item-2 { background-color: #4ECDC4; animation-delay: 0.2s; }
-        .item-3 { background-color: #45B7D1; animation-delay: 0.3s; }
-        .item-4 { background-color: #96CEB4; animation-delay: 0.4s; }
-        .item-5 { background-color: #FECA57; animation-delay: 0.5s; }
-        .item-6 { background-color: #DDA0DD; animation-delay: 0.6s; }
+        /* Dynamic colors will be applied via inline styles */
         
         .tooltip {
             position: absolute;
@@ -176,39 +171,15 @@
         
         <div class="timeline-wrapper">
             <div class="category-labels">
-                <div class="category-label">Category 7</div>
-                <div class="category-label">Category 6</div>
-                <div class="category-label">Category 5</div>
-                <div class="category-label">Category 4</div>
-                <div class="category-label">Category 3</div>
-                <div class="category-label">Category 2</div>
-                <div class="category-label">Category 1</div>
+                <!-- Category labels will be generated from config -->
             </div>
             
             <div class="timeline-grid">
                 <div class="grid-lines">
-                    <!-- Horizontal grid lines -->
-                    <div class="grid-line" style="top: 50px;"></div>
-                    <div class="grid-line" style="top: 100px;"></div>
-                    <div class="grid-line" style="top: 150px;"></div>
-                    <div class="grid-line" style="top: 200px;"></div>
-                    <div class="grid-line" style="top: 250px;"></div>
-                    <div class="grid-line" style="top: 300px;"></div>
+                    <!-- Horizontal grid lines will be generated from config -->
                 </div>
                 <div class="vertical-lines">
-                    <!-- Vertical grid lines for time periods -->
-                    <div class="vertical-grid-line" style="left: 0%;"></div>
-                    <div class="vertical-grid-line" style="left: 9.09%;"></div>
-                    <div class="vertical-grid-line" style="left: 18.18%;"></div>
-                    <div class="vertical-grid-line" style="left: 27.27%;"></div>
-                    <div class="vertical-grid-line" style="left: 36.36%;"></div>
-                    <div class="vertical-grid-line" style="left: 45.45%;"></div>
-                    <div class="vertical-grid-line" style="left: 54.55%;"></div>
-                    <div class="vertical-grid-line" style="left: 63.64%;"></div>
-                    <div class="vertical-grid-line" style="left: 72.73%;"></div>
-                    <div class="vertical-grid-line" style="left: 81.82%;"></div>
-                    <div class="vertical-grid-line" style="left: 90.91%;"></div>
-                    <div class="vertical-grid-line" style="left: 100%;"></div>
+                    <!-- Vertical grid lines will be generated from config -->
                 </div>
                 
                 <div class="timeline-items" id="timelineItems">
@@ -216,18 +187,7 @@
                 </div>
                 
                 <div class="time-markers">
-                    <div class="time-marker">Period 1</div>
-                    <div class="time-marker">Period 2</div>
-                    <div class="time-marker">Period 3</div>
-                    <div class="time-marker">Period 4</div>
-                    <div class="time-marker">Period 5</div>
-                    <div class="time-marker">Period 6</div>
-                    <div class="time-marker">Period 7</div>
-                    <div class="time-marker">Period 8</div>
-                    <div class="time-marker">Period 9</div>
-                    <div class="time-marker">Period 10</div>
-                    <div class="time-marker">Period 11</div>
-                    <div class="time-marker">Period 12</div>
+                    <!-- Time markers will be generated from config -->
                 </div>
             </div>
         </div>
@@ -237,43 +197,115 @@
     
     <script>
         // Generic Timeline Configuration
+        // 
+        // HOW TO CONFIGURE THIS GRAPH:
+        // 
+        // 1. CHART TITLE: Change 'title' to set the main heading
+        // 2. TIME PERIODS: Add/remove items in 'timeUnits' array for X-axis labels
+        // 3. CATEGORIES: Add/remove items in 'categories' array for Y-axis labels
+        // 4. TIMELINE ITEMS: Add/remove objects in 'items' array with:
+        //    - name: Display name for the item
+        //    - start: Starting time period index (0-based)
+        //    - end: Ending time period index (0-based)
+        //    - category: Category row index (0-based, 0 = top row)
+        //    - color: Hex color code (optional, defaults to gray)
+        // 5. VISUAL SETTINGS: Adjust 'itemHeight' and 'categoryHeight' for sizing
+        //
+        // DYNAMIC FUNCTIONS: Use addTimePeriod(), addCategory(), addTimelineItem() 
+        // to modify the chart programmatically
         const config = {
             // Chart title
             title: "Project Timeline",
             
             // Time periods (X-axis)
             timeUnits: ['Period 1', 'Period 2', 'Period 3', 'Period 4', 'Period 5', 
-                       'Period 6', 'Period 7', 'Period 8', 'Period 9', 'Period 10', 'Period 11', 'Period 12'],
+                       'Period 6', 'Period 7', 'Period 8', 'Period 9', 'Period 10', 'Period 11'],
             
             // Categories (Y-axis)
-            categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Category 6', 'Category 7'],
+            categories: ['Category 1', 'Category 2', 'Category 3', 'Category 4', 'Category 5', 'Category 6', 'Category 7', 'Category 8'],
             
             // Timeline items
             items: [
-                { name: "Item 1", start: 0, end: 1, category: 0 },  // Top row
-                { name: "Item 2", start: 1, end: 2, category: 1 },  // 2nd row
-                { name: "Item 3", start: 2, end: 3, category: 2 },  // 3rd row
-                { name: "Item 4", start: 3, end: 4, category: 3 },  // 4th row
-                { name: "Item 5", start: 4, end: 5, category: 4 },  // 5th row
-                { name: "Item 6", start: 5, end: 6, category: 5 }   // 6th row
+                { name: "Item 1", start: 0, end: 1, category: 0, color: "#FF6B6B" },  // Top row
+                { name: "Item 2", start: 1, end: 2, category: 1, color: "#4ECDC4" },  // 2nd row
+                { name: "Item 3", start: 2, end: 3, category: 2, color: "#45B7D1" },  // 3rd row
+                { name: "Item 4", start: 3, end: 4, category: 3, color: "#96CEB4" },  // 4th row
+                { name: "Item 5", start: 4, end: 5, category: 4, color: "#FECA57" },  // 5th row
+                { name: "Item 6", start: 5, end: 6, category: 5, color: "#DDA0DD" },  // 6th row
+                { name: "Item 7", start: 6, end: 7, category: 6, color: "#FF9F43" },  // 7th row
+                { name: "Item 8", start: 7, end: 8, category: 7, color: "#10AC84" },   // 8th row
             ],
             
             // Visual settings
             itemHeight: 12,
-            categoryHeight: 50,
-            labelRotation: -45
+            categoryHeight: 50
         };
         
-        const itemsContainer = document.getElementById('timelineItems');
         const tooltip = document.getElementById('tooltip');
         
-        // Set chart title
-        document.getElementById('chartTitle').textContent = config.title;
-        
-        // Create timeline items
-        config.items.forEach((item, index) => {
+        // Generate entire chart from config
+        function generateChartFromConfig() {
+            // Set chart title
+            document.getElementById('chartTitle').textContent = config.title;
+            
+            // Generate category labels
+            const categoryLabelsContainer = document.querySelector('.category-labels');
+            categoryLabelsContainer.innerHTML = ''; // Clear existing
+            config.categories.forEach((category, index) => {
+                const label = document.createElement('div');
+                label.className = 'category-label';
+                label.textContent = category;
+                categoryLabelsContainer.appendChild(label);
+            });
+            
+            // Generate time markers
+            const timeMarkersContainer = document.querySelector('.time-markers');
+            timeMarkersContainer.innerHTML = ''; // Clear existing
+            config.timeUnits.forEach((timeUnit, index) => {
+                const marker = document.createElement('div');
+                marker.className = 'time-marker';
+                marker.textContent = timeUnit;
+                timeMarkersContainer.appendChild(marker);
+            });
+            
+            // Generate vertical grid lines
+            const verticalLinesContainer = document.querySelector('.vertical-lines');
+            verticalLinesContainer.innerHTML = ''; // Clear existing
+            config.timeUnits.forEach((timeUnit, index) => {
+                const gridLine = document.createElement('div');
+                gridLine.className = 'vertical-grid-line';
+                const position = (index / (config.timeUnits.length - 1)) * 100;
+                gridLine.style.left = position + '%';
+                verticalLinesContainer.appendChild(gridLine);
+            });
+            
+            // Generate horizontal grid lines
+            const gridLinesContainer = document.querySelector('.grid-lines');
+            gridLinesContainer.innerHTML = ''; // Clear existing
+            config.categories.forEach((category, index) => {
+                const gridLine = document.createElement('div');
+                gridLine.className = 'grid-line';
+                const position = index * config.categoryHeight;
+                gridLine.style.top = position + 'px';
+                gridLinesContainer.appendChild(gridLine);
+            });
+            
+            // Update grid height
+            const newHeight = config.categories.length * config.categoryHeight;
+            document.querySelector('.timeline-grid').style.height = newHeight + 'px';
+            
+            // Generate timeline items
+            const itemsContainer = document.getElementById('timelineItems');
+            itemsContainer.innerHTML = ''; // Clear existing
+            config.items.forEach((item, index) => {
             const timelineItem = document.createElement('div');
-            timelineItem.className = `timeline-item item-${index + 1}`;
+            timelineItem.className = 'timeline-item';
+            
+            // Apply color from item config and animation
+            const color = item.color || '#CCCCCC'; // Fallback to gray if no color specified
+            const animationDelay = (index + 1) * 0.1;
+            timelineItem.style.backgroundColor = color;
+            timelineItem.style.animationDelay = animationDelay + 's';
             
             // Each time period is evenly distributed across the width
             const leftPercent = (item.start / (config.timeUnits.length - 1)) * 100;
@@ -285,8 +317,7 @@
             timelineItem.style.left = leftPercent + '%';
             timelineItem.style.top = topPosition + 'px';
             
-            // Debug: log the positioning
-            console.log(`${item.name}: left=${leftPercent}%, width=${widthPercent}%, top=${topPosition}px`);
+
             
             // Add hover events
             timelineItem.addEventListener('mouseenter', (e) => {
@@ -307,6 +338,13 @@
             
             itemsContainer.appendChild(timelineItem);
         });
+            
+            // Position time markers after generation
+            positionTimeMarkers();
+        }
+        
+        // Call the generation function
+        generateChartFromConfig();
         
         // Position time markers for proper alignment
         function positionTimeMarkers() {
@@ -338,10 +376,7 @@
             });
         }
         
-        // Call the positioning function after the DOM is fully loaded
-        window.addEventListener('load', positionTimeMarkers);
-        
-        // Also call on window resize to maintain alignment
+        // Call on window resize to maintain alignment
         window.addEventListener('resize', positionTimeMarkers);
         
         // Helper functions for dynamic chart management
@@ -349,23 +384,8 @@
             // Add to config
             config.timeUnits.push(label);
             
-            // Add HTML element
-            const timeMarkersContainer = document.querySelector('.time-markers');
-            const newMarker = document.createElement('div');
-            newMarker.className = 'time-marker';
-            newMarker.textContent = label;
-            timeMarkersContainer.appendChild(newMarker);
-            
-            // Add vertical grid line
-            const verticalLinesContainer = document.querySelector('.vertical-lines');
-            const newGridLine = document.createElement('div');
-            newGridLine.className = 'vertical-grid-line';
-            const position = ((config.timeUnits.length - 1) * 10) + '%';
-            newGridLine.style.left = position;
-            verticalLinesContainer.appendChild(newGridLine);
-            
-            // Reposition all markers
-            positionTimeMarkers();
+            // Regenerate entire chart
+            generateChartFromConfig();
             
             console.log(`Added time period: ${label}`);
         }
@@ -379,15 +399,8 @@
             // Remove from config
             config.timeUnits.splice(index, 1);
             
-            // Remove HTML elements
-            const timeMarkers = document.querySelectorAll('.time-marker');
-            const verticalLines = document.querySelectorAll('.vertical-grid-line');
-            
-            if (timeMarkers[index]) timeMarkers[index].remove();
-            if (verticalLines[index]) verticalLines[index].remove();
-            
-            // Reposition all markers
-            positionTimeMarkers();
+            // Regenerate entire chart
+            generateChartFromConfig();
             
             console.log(`Removed time period at index: ${index}`);
         }
@@ -396,24 +409,8 @@
             // Add to config
             config.categories.push(label);
             
-            // Add HTML element
-            const categoryLabelsContainer = document.querySelector('.category-labels');
-            const newLabel = document.createElement('div');
-            newLabel.className = 'category-label';
-            newLabel.textContent = label;
-            categoryLabelsContainer.appendChild(newLabel);
-            
-            // Update grid height
-            const newHeight = config.categories.length * config.categoryHeight;
-            document.querySelector('.timeline-grid').style.height = newHeight + 'px';
-            
-            // Add horizontal grid line
-            const gridLinesContainer = document.querySelector('.grid-lines');
-            const newGridLine = document.createElement('div');
-            newGridLine.className = 'grid-line';
-            const position = (config.categories.length - 1) * config.categoryHeight;
-            newGridLine.style.top = position + 'px';
-            gridLinesContainer.appendChild(newGridLine);
+            // Regenerate entire chart
+            generateChartFromConfig();
             
             console.log(`Added category: ${label}`);
         }
@@ -427,16 +424,8 @@
             // Remove from config
             config.categories.splice(index, 1);
             
-            // Remove HTML elements
-            const categoryLabels = document.querySelectorAll('.category-label');
-            const gridLines = document.querySelectorAll('.grid-line');
-            
-            if (categoryLabels[index]) categoryLabels[index].remove();
-            if (gridLines[index]) gridLines[index].remove();
-            
-            // Update grid height
-            const newHeight = config.categories.length * config.categoryHeight;
-            document.querySelector('.timeline-grid').style.height = newHeight + 'px';
+            // Regenerate entire chart
+            generateChartFromConfig();
             
             console.log(`Removed category at index: ${index}`);
         }
@@ -445,38 +434,8 @@
             // Add to config
             config.items.push({ name, start, end, category });
             
-            // Create and add HTML element
-            const timelineItem = document.createElement('div');
-            timelineItem.className = `timeline-item item-${config.items.length}`;
-            
-            // Calculate positioning
-            const leftPercent = start * 10;
-            const rightPercent = end * 10;
-            const widthPercent = rightPercent - leftPercent;
-            const topPosition = category * config.categoryHeight + (config.categoryHeight - config.itemHeight) / 2;
-            
-            timelineItem.style.width = widthPercent + '%';
-            timelineItem.style.left = leftPercent + '%';
-            timelineItem.style.top = topPosition + 'px';
-            
-            // Add hover events
-            timelineItem.addEventListener('mouseenter', (e) => {
-                const startPeriod = config.timeUnits[start];
-                const endPeriod = config.timeUnits[end];
-                tooltip.textContent = `${name}: ${startPeriod} - ${endPeriod}`;
-                tooltip.classList.add('show');
-            });
-            
-            timelineItem.addEventListener('mousemove', (e) => {
-                tooltip.style.left = e.pageX + 10 + 'px';
-                tooltip.style.top = e.pageY - 30 + 'px';
-            });
-            
-            timelineItem.addEventListener('mouseleave', () => {
-                tooltip.classList.remove('show');
-            });
-            
-            document.getElementById('timelineItems').appendChild(timelineItem);
+            // Regenerate entire chart
+            generateChartFromConfig();
             
             console.log(`Added timeline item: ${name}`);
         }
@@ -490,9 +449,8 @@
             // Remove from config
             config.items.splice(index, 1);
             
-            // Remove HTML element
-            const timelineItems = document.querySelectorAll('.timeline-item');
-            if (timelineItems[index]) timelineItems[index].remove();
+            // Regenerate entire chart
+            generateChartFromConfig();
             
             console.log(`Removed timeline item at index: ${index}`);
         }
