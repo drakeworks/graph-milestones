@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Milestone Timeline Chart</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .chart-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 40px;
+            padding-right: 90px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+        }
+        
+        .timeline-wrapper {
+            position: relative;
+            padding-left: 150px;
+            padding-bottom: 80px;
+        }
+        
+        .milestone-labels {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 140px;
+        }
+        
+        .milestone-label {
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 20px;
+            font-weight: 500;
+            color: #555;
+        }
+        
+        .timeline-grid {
+            position: relative;
+            height: 360px;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .month-markers {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            padding-top: 22px;
+        }
+        
+        .month-marker {
+            position: absolute;
+            font-size: 12px;
+            color: #666;
+            transform: translateX(-50%) rotate(-45deg);
+            transform-origin: center top;
+            white-space: nowrap;
+        }
+        
+        .vertical-grid-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background-color: #e0e0e0;
+        }
+        
+        .vertical-grid-line:first-of-type {
+            background-color: #ddd;
+            width: 2px;
+        }
+        
+        .grid-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        
+        .grid-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: #f0f0f0;
+        }
+        
+        .milestone-bars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        
+        .milestone-bar {
+            position: absolute;
+            height: 30px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+            opacity: 0;
+            animation: slideIn 0.6s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 0.9;
+                transform: translateX(0);
+            }
+        }
+        
+        .milestone-bar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            opacity: 1;
+        }
+        
+        .milestone-1 { background-color: #FF6B6B; animation-delay: 0.1s; }
+        .milestone-2 { background-color: #4ECDC4; animation-delay: 0.2s; }
+        .milestone-3 { background-color: #45B7D1; animation-delay: 0.3s; }
+        .milestone-4 { background-color: #96CEB4; animation-delay: 0.4s; }
+        .milestone-5 { background-color: #FECA57; animation-delay: 0.5s; }
+        .milestone-6 { background-color: #DDA0DD; animation-delay: 0.6s; }
+        
+        .tooltip {
+            position: absolute;
+            background-color: #333;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 1000;
+        }
+        
+        .tooltip.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <h1>Project Milestone Timeline</h1>
+        
+        <div class="timeline-wrapper">
+            <div class="milestone-labels">
+                <div class="milestone-label">Milestone 6</div>
+                <div class="milestone-label">Milestone 5</div>
+                <div class="milestone-label">Milestone 4</div>
+                <div class="milestone-label">Milestone 3</div>
+                <div class="milestone-label">Milestone 2</div>
+                <div class="milestone-label">Milestone 1</div>
+            </div>
+            
+            <div class="timeline-grid">
+                <div class="grid-lines">
+                    <!-- Horizontal grid lines -->
+                    <div class="grid-line" style="top: 60px;"></div>
+                    <div class="grid-line" style="top: 120px;"></div>
+                    <div class="grid-line" style="top: 180px;"></div>
+                    <div class="grid-line" style="top: 240px;"></div>
+                    <div class="grid-line" style="top: 300px;"></div>
+                </div>
+                <div class="vertical-lines">
+                    <!-- Vertical grid lines for months -->
+                    <div class="vertical-grid-line" style="left: 0%;"></div>
+                    <div class="vertical-grid-line" style="left: 10%;"></div>
+                    <div class="vertical-grid-line" style="left: 20%;"></div>
+                    <div class="vertical-grid-line" style="left: 30%;"></div>
+                    <div class="vertical-grid-line" style="left: 40%;"></div>
+                    <div class="vertical-grid-line" style="left: 50%;"></div>
+                    <div class="vertical-grid-line" style="left: 60%;"></div>
+                    <div class="vertical-grid-line" style="left: 70%;"></div>
+                    <div class="vertical-grid-line" style="left: 80%;"></div>
+                    <div class="vertical-grid-line" style="left: 90%;"></div>
+                    <div class="vertical-grid-line" style="left: 100%;"></div>
+                </div>
+                
+                <div class="milestone-bars" id="milestoneBars">
+                    <!-- Bars will be generated by JavaScript -->
+                </div>
+                
+                <div class="month-markers">
+                    <div class="month-marker" style="left: 0%;">June 2025</div>
+                    <div class="month-marker" style="left: 10%;">July 2025</div>
+                    <div class="month-marker" style="left: 20%;">August 2025</div>
+                    <div class="month-marker" style="left: 30%;">September 2025</div>
+                    <div class="month-marker" style="left: 40%;">October 2025</div>
+                    <div class="month-marker" style="left: 50%;">November 2025</div>
+                    <div class="month-marker" style="left: 60%;">December 2025</div>
+                    <div class="month-marker" style="left: 70%;">January 2026</div>
+                    <div class="month-marker" style="left: 80%;">February 2026</div>
+                    <div class="month-marker" style="left: 90%;">March 2026</div>
+                    <div class="month-marker" style="left: 100%;">April 2026</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tooltip" id="tooltip"></div>
+    
+    <script>
+        // Configuration
+        const config = {
+            months: ['June 2025', 'July 2025', 'August 2025', 'September 2025', 'October 2025', 
+                    'November 2025', 'December 2025', 'January 2026', 'February 2026', 'March 2026', 'April 2026'],
+            monthsShort: ['Jun \'25', 'Jul \'25', 'Aug \'25', 'Sep \'25', 'Oct \'25', 
+                         'Nov \'25', 'Dec \'25', 'Jan \'26', 'Feb \'26', 'Mar \'26', 'Apr \'26'],
+            milestones: [
+                { name: "Milestone 1", start: 0, end: 1, row: 5 },
+                { name: "Milestone 2", start: 1, end: 2, row: 4 },
+                { name: "Milestone 3", start: 2, end: 3, row: 3 },
+                { name: "Milestone 4", start: 3, end: 4, row: 2 },
+                { name: "Milestone 5", start: 4, end: 5, row: 1 },
+                { name: "Milestone 6", start: 5, end: 6, row: 0 }
+            ],
+            barHeight: 30,
+            rowHeight: 60,
+            labelRotation: -45
+        };
+        
+        const barsContainer = document.getElementById('milestoneBars');
+        const tooltip = document.getElementById('tooltip');
+        
+        // Create milestone bars
+        config.milestones.forEach((milestone, index) => {
+            const bar = document.createElement('div');
+            bar.className = `milestone-bar milestone-${index + 1}`;
+            
+            // Each month represents 10% of the width
+            const leftPercent = milestone.start * 10;
+            const rightPercent = milestone.end * 10;
+            const widthPercent = rightPercent - leftPercent;
+            const topPosition = milestone.row * config.rowHeight + (config.rowHeight - config.barHeight) / 2;
+            
+            bar.style.width = widthPercent + '%';
+            bar.style.left = leftPercent + '%';
+            bar.style.top = topPosition + 'px';
+            
+            // Add hover events
+            bar.addEventListener('mouseenter', (e) => {
+                const startMonth = config.months[milestone.start];
+                const endMonth = config.months[milestone.end];
+                tooltip.textContent = `${milestone.name}: ${startMonth} - ${endMonth}`;
+                tooltip.classList.add('show');
+            });
+            
+            bar.addEventListener('mousemove', (e) => {
+                tooltip.style.left = e.pageX + 10 + 'px';
+                tooltip.style.top = e.pageY - 30 + 'px';
+            });
+            
+            bar.addEventListener('mouseleave', () => {
+                tooltip.classList.remove('show');
+            });
+            
+            barsContainer.appendChild(bar);
+        });
+    </script>
+</body>
+</html>
